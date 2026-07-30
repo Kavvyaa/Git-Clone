@@ -14,7 +14,9 @@ yargs(hideBin(process.argv))
         describe: "file to be added to staging",
         type: "string",
     });
-}, addFile)
+}, (argv) =>{
+    addFile(argv.file);
+})
 .command("commit <message>", "file ready to commit", (yargs)=>{
     yargs.positional("message", {
         describe: "commit message",

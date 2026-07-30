@@ -3,7 +3,7 @@ const path = require('path');
 const { json } = require("stream/consumers");
 
 async function initRepo() {
-    const repoPath = path.resolve(process.cwd(), ".git");
+    const repoPath = path.resolve(process.cwd(), ".agit");
     const commitsPath = path.join(repoPath, "commits");
 
     try {
