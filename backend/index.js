@@ -22,7 +22,9 @@ yargs(hideBin(process.argv))
         describe: "commit message",
         type: "string",
     });
-}, commit)
+}, (argv) =>{
+    commit(argv.message);
+})
 .command("revert <commitID>", "revert back ", (yargs)=>{
     yargs.positional("file", {
         describe: "file to be reverted",
