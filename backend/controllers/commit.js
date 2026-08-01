@@ -20,7 +20,7 @@ async function commit(message) {
         await fs.writeFile(path.join(commitDir, "commit.json"), JSON.stringify({message, date: new Date()}));
         console.log(`commit ${commitID} created with message: ${message}`);
     } catch (error) {
-        console.log("Commit error:", error)
+        console.error("Commit error:", error)
     }
 }
 

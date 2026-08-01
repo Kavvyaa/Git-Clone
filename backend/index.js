@@ -27,10 +27,12 @@ yargs(hideBin(process.argv))
 })
 .command("revert <commitID>", "revert back ", (yargs)=>{
     yargs.positional("file", {
-        describe: "file to be reverted",
+        describe: "commit to be reverted",
         type: "string",
     });
-}, revertRepo)
+}, (argv) =>{
+    revertRepo(argv.commitID);
+})
 .command("push", "push to repository", {}, pushRepo)
 .command("pull", "pull to repository", {}, pullRepo)
 .demandCommand(1, "You need atleast one command to run").help().argv;
