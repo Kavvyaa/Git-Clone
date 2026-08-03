@@ -1,3 +1,10 @@
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const http = require('http');
+
 const yargs = require('yargs');
 const {hideBin} = require('yargs/helpers')
 const {initRepo} = require('./controllers/init');
@@ -7,7 +14,10 @@ const {revertRepo} = require('./controllers/revert');
 const {pushRepo} = require('./controllers/push');
 const {pullRepo} = require('./controllers/pull');
 
+dotenv.config();
+
 yargs(hideBin(process.argv))
+.command("start", "start a new server", {}, startServer)
 .command("init", "initialize new repository", {}, initRepo)
 .command("add <file>", "add a file to the repository", (yargs)=>{
     yargs.positional("file", {
@@ -36,3 +46,7 @@ yargs(hideBin(process.argv))
 .command("push", "push to repository", {}, pushRepo)
 .command("pull", "pull to repository", {}, pullRepo)
 .demandCommand(1, "You need atleast one command to run").help().argv;
+
+function startServer() {
+    console.log("server is running");
+}
