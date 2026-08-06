@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const http = require('http');
+const app = express();
 
 const yargs = require('yargs');
 const {hideBin} = require('yargs/helpers')
@@ -13,6 +14,7 @@ const {commit} = require('./controllers/commit');
 const {revertRepo} = require('./controllers/revert');
 const {pushRepo} = require('./controllers/push');
 const {pullRepo} = require('./controllers/pull');
+const { error } = require('console');
 
 dotenv.config();
 
@@ -49,4 +51,10 @@ yargs(hideBin(process.argv))
 
 function startServer() {
     console.log("server is running");
+    const port = process.env.PORT || 3000;
+    app.use(bodyParser.json());
+    app.use(express.json());
+    const mongoUrl = process.env.MONGO_URL;
+
+    mongoose.connect(mongoUrl).then(() => console.log("mongo connected")).catch((err)=> console.error(error));
 }
