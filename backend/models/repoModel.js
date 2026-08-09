@@ -33,4 +33,5 @@ const RepositorySchema = new Schema({
 })
 
 const Repository = mongoose.model("Repository", RepositorySchema);
-module.exports.Repository;
+
+module.exports = Repository;
