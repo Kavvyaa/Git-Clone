@@ -10,11 +10,14 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "body-parser": "^2.3.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.5.0",
     "mongoose": "^9.9.1",
     "socket.io": "^4.8.3",
     "uuid": "^14.0.1",
