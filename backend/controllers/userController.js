@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const {mongoClient} = require('mongodb');
+const {MongoClient} = require('mongodb');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -9,32 +9,45 @@ const url = process.env.MONGO_URL;
 let client;
 async function connectClient() {
     if (!client) {
-        client = new mongoClient(url, {useNewUrlParser: true, useUnifiedTopology: true});
+        client = new MongoClient(url);
         await client.connect();
     }
+    return client;
 }
 
 const getAllUsers = (req, res)=>{
     res.send("All users!!");
 };
 
-const signup = (req, res)=>{
+async function signup(req, res) {
     const {username, email, password} = req.body;
     try {
         await connectClient();
         const db = client.db("Git-Clone");
         const usersCollection = db.collection("users");
         const user = await usersCollection.findOne({username});
+
         if(user){
             return res.status(400).json({message: "user already exist"});
         }
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);   
+
+        const newUser = {
+            username, password: hashedPassword, email, repositories: [], followedUsers: [], 
+            starstarRepos: []
+        };
+        const result = await usersCollection.insertOne(newUser);    
+
+        const token = jwt.sign({id: result.insertedId}, process.env.JWT_SECRET_KEY, {expiresIn: "1h"});
+
+        res.json({token});
+
     } catch (error) {
-        
+        console.error("Error during signup: ", error.message);
+        res.status(500).send("Server Error");
     }
-    res.send("signing up!!");
 };
 
 const login = (req, res)=>{
