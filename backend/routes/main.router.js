@@ -10,5 +10,6 @@ mainRouter.get('/', (req, res)=>{
 
 mainRouter.use(userRouter);
 mainRouter.use(repoRouter);
+mainRouter.use(issueRouter);
 
 module.exports = mainRouter;
